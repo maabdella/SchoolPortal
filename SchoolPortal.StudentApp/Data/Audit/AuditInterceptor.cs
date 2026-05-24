@@ -48,7 +48,6 @@ public class AuditInterceptor : SaveChangesInterceptor
                 case EntityState.Deleted:
                     // Soft Delete
                     entry.State = EntityState.Modified;
-
                     entry.Entity.IsDeleted = true;
                     entry.Entity.DeletedAt = DateTime.UtcNow;
                     entry.Entity.UpdatedAt = DateTime.UtcNow;

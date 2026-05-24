@@ -9,7 +9,7 @@ public class Student : BaseEntity
     public string Email { get; set; } = default!;
 
     public DateTime DateOfBirth { get; set; }
-
+    
     public DateTime EnrollmentDate { get; set; }
 }
 

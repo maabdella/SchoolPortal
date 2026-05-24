@@ -1,0 +1,124 @@
+@model SchoolPortal.StudentApp.Models.Student
+
+@{
+    ViewData["Title"] = "Delete Student";
+    var initials = string.Concat(
+        (Model.FirstName?.Length > 0 ? Model.FirstName[0].ToString() : ""),
+        (Model.LastName?.Length  > 0 ? Model.LastName[0].ToString()  : "")
+    );
+}
+
+<!-- ===== STYLES ===== -->
+<partial name="_StudentLayout" />
+
+<!-- Override avatar for delete page — red tint -->
+<style>
+    .sp-avatar--danger {
+        background: linear-gradient(135deg, var(--sp-danger) 0%, #6b0000 100%) !important;
+    }
+</style>
+
+<div class="sp-page" style="max-width:640px;">
+
+    <!-- PAGE HEADER -->
+    <div class="sp-page-header">
+        <div class="sp-page-header__titles">
+            <div class="sp-breadcrumb">
+                <a href="/">Home</a>
+                <span>›</span>
+                <a asp-action="Index">Students</a>
+                <span>›</span>
+                Delete Student
+            </div>
+            <h1 class="sp-page-title">Delete Student</h1>
+        </div>
+    </div>
+
+    <!-- STUDENT CARD -->
+    <div class="sp-card">
+        <div class="sp-card__header" style="background:linear-gradient(135deg,#7f1d1d 0%,#b91c1c 100%);">
+            <div class="sp-card__header-icon">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V4a1 1 0 011-1h6a1 1 0 011 1v3"/>
+                </svg>
+            </div>
+            <div class="sp-card__header-text">
+                <h2>Confirm Deletion</h2>
+                <p>This action cannot be undone — please review carefully</p>
+            </div>
+        </div>
+
+        <div class="sp-card__body">
+
+            <!-- STUDENT PROFILE -->
+            <div class="sp-student-hero">
+                <span class="sp-avatar sp-avatar--danger" style="width:56px;height:56px;font-size:1.2rem;">
+                    @initials
+                </span>
+                <div class="sp-student-hero__info">
+                    <h3>@Model.FirstName @Model.LastName</h3>
+                    <p>Student ID: @Model.Id &nbsp;·&nbsp; Enrolled @Model.EnrollmentDate.ToString("MMMM dd, yyyy")</p>
+                </div>
+            </div>
+
+            <!-- STUDENT DETAILS SUMMARY -->
+            <div class="sp-detail-grid" style="margin-bottom:1.5rem;">
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Full Name</span>
+                    <span class="sp-detail-value">@Model.FirstName @Model.LastName</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Email Address</span>
+                    <span class="sp-detail-value">@Model.Email</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Student ID</span>
+                    <span class="sp-detail-value">#@Model.Id</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Enrollment Date</span>
+                    <span class="sp-detail-value">@Model.EnrollmentDate.ToString("MMMM dd, yyyy")</span>
+                </div>
+            </div>
+
+            <!-- WARNING BOX -->
+            <div class="sp-confirm-box">
+                <div class="sp-confirm-box__icon">⚠️</div>
+                <div class="sp-confirm-box__text">
+                    <h4>You are about to permanently delete this student</h4>
+                    <p>
+                        Deleting <strong>@Model.FirstName @Model.LastName</strong> will remove all associated
+                        records, enrollment data, and history. This action <strong>cannot be undone</strong>.
+                        Are you absolutely sure?
+                    </p>
+                </div>
+            </div>
+
+            <!-- CONFIRMATION FORM -->
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                @Html.AntiForgeryToken()
+                <div class="sp-btn-group">
+                    <button type="submit" class="sp-btn sp-btn--danger">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V4a1 1 0 011-1h6a1 1 0 011 1v3"/>
+                        </svg>
+                        Yes, Delete Student
+                    </button>
+                    <a asp-action="Index" class="sp-btn sp-btn--outline">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Cancel — Keep Student
+                    </a>
+                </div>
+            </form>
+
+        </div><!-- /.sp-card__body -->
+    </div><!-- /.sp-card -->
+</div><!-- /.sp-page -->

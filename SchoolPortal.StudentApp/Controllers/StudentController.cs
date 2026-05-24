@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SchoolPortal.StudentApp.Data.Context;
 using SchoolPortal.StudentApp.Models;
 
@@ -25,13 +26,13 @@ public class StudentController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Student student)
+    public async Task<IActionResult> Create(Student student)
     {
         if(!ModelState.IsValid)
             return View(student);
             _studentDbContext.Students.Add(student);
-            _studentDbContext.SaveChanges();
-        return RedirectToAction("Index");  
+            await _studentDbContext.SaveChangesAsync();
+        return  RedirectToAction("Index");  
     }
 
     [HttpGet]
@@ -46,11 +47,11 @@ public class StudentController : Controller
     }
 
     [HttpPost]
-    public IActionResult Edit(Student student)
+    public async Task<IActionResult> Edit(Student student)
     {
         if (!ModelState.IsValid)
             return View(student);
-        var existingStudent = _studentDbContext.Students.FirstOrDefault(s => s.Id == student.Id);
+        var existingStudent =await _studentDbContext.Students.FirstOrDefaultAsync(s => s.Id == student.Id);
         if (existingStudent == null)
         {
             return NotFound();
@@ -58,12 +59,38 @@ public class StudentController : Controller
         existingStudent.FirstName = student.FirstName;
         existingStudent.LastName = student.LastName;
         existingStudent.Email = student.Email;
-        _studentDbContext.SaveChanges();
+        await _studentDbContext.SaveChangesAsync();
         return RedirectToAction("Index");
     }
 
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        var student = _studentDbContext.Students.FirstOrDefault(s => s.Id == id);
+        if (student == null)
+        {
+            return NotFound();
+        }
+        return View(student);
+    }
 
-    public 
+
+
+
+
+    [HttpPost]
+    [ActionName("Delete")]
+    public async Task<IActionResult> DeleteCmfirmed(int id)
+    {
+        var student = await _studentDbContext.Students.FirstOrDefaultAsync(s => s.Id == id);
+        if (student == null)
+        {
+            return NotFound();
+        }
+        student.IsDeleted = true;
+        await _studentDbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
 
 
 
@@ -77,6 +104,25 @@ public class StudentController : Controller
         }
         return View(student);
     }
+
+
+    public ActionResult GetAll()
+    {
+        var students = _studentDbContext.Students.ToList();
+        return Json(students);
+    }
+
+    public ActionResult GetById(int id)
+    {
+        var student = _studentDbContext.Students.FirstOrDefault(s => s.Id == id);
+        if (student == null)
+        {
+            return NotFound();
+        }
+        return Json(student);
+    }
+
+
 
 
 }

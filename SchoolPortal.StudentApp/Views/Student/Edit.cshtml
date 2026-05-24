@@ -1,0 +1,167 @@
+@model SchoolPortal.StudentApp.Models.Student
+
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+<!-- ===== STYLES ===== -->
+<partial name="_StudentLayout" />
+
+<div class="sp-page" style="max-width:760px;">
+
+    <!-- PAGE HEADER -->
+    <div class="sp-page-header">
+        <div class="sp-page-header__titles">
+            <div class="sp-breadcrumb">
+                <a href="/">Home</a>
+                <span>›</span>
+                <a asp-action="Index">Students</a>
+                <span>›</span>
+                <a asp-action="Details" asp-route-id="@Model.Id">@Model.FirstName @Model.LastName</a>
+                <span>›</span>
+                Edit
+            </div>
+            <h1 class="sp-page-title">Edit Student</h1>
+        </div>
+    </div>
+
+    <!-- STUDENT MINI-PROFILE -->
+    @{
+        var initials = string.Concat(
+            (Model.FirstName?.Length > 0 ? Model.FirstName[0].ToString() : ""),
+            (Model.LastName?.Length  > 0 ? Model.LastName[0].ToString()  : "")
+        );
+    }
+    <div style="background:var(--sp-white);border:1px solid var(--sp-border);border-radius:var(--sp-radius);
+                padding:1rem 1.4rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:.9rem;
+                box-shadow:var(--sp-shadow-sm);">
+        <span class="sp-avatar" style="width:44px;height:44px;font-size:1rem;">@initials</span>
+        <div>
+            <strong style="font-family:var(--sp-font-head);color:var(--sp-navy);">
+                @Model.FirstName @Model.LastName
+            </strong>
+            <div style="font-size:.82rem;color:var(--sp-muted);">Student ID: @Model.Id</div>
+        </div>
+        <span class="sp-badge sp-badge--info" style="margin-left:auto;">Editing</span>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="sp-card">
+        <div class="sp-card__header">
+            <div class="sp-card__header-icon">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 012.828 2.828L11.828 15.828a2 2 0 01-1.414.586H9v-2a2 2 0 01.586-1.414z"/>
+                </svg>
+            </div>
+            <div class="sp-card__header-text">
+                <h2>Update Student Record</h2>
+                <p>Modify the details below and save your changes</p>
+            </div>
+        </div>
+
+        <div class="sp-card__body">
+
+            <!-- VALIDATION SUMMARY -->
+            <div asp-validation-summary="ModelOnly" class="sp-validation-summary">
+                <h4>⚠ Please fix the following errors before continuing:</h4>
+            </div>
+
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+
+                <!-- HIDDEN ID — never shown, always submitted -->
+                <input asp-for="Id" type="hidden" />
+
+                <!-- PERSONAL INFORMATION -->
+                <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sp-muted);margin:0 0 1rem;">
+                    Personal Information
+                </p>
+
+                <div class="sp-form-grid">
+
+                    <!-- First Name -->
+                    <div class="sp-field">
+                        <label asp-for="FirstName" class="sp-label">
+                            First Name <span class="sp-required">*</span>
+                        </label>
+                        <input asp-for="FirstName" class="sp-input"
+                               placeholder="e.g. Sarah" autocomplete="given-name" />
+                        <span asp-validation-for="FirstName" class="field-validation-error"></span>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="sp-field">
+                        <label asp-for="LastName" class="sp-label">
+                            Last Name <span class="sp-required">*</span>
+                        </label>
+                        <input asp-for="LastName" class="sp-input"
+                               placeholder="e.g. Johnson" autocomplete="family-name" />
+                        <span asp-validation-for="LastName" class="field-validation-error"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="sp-field sp-field--full">
+                        <label asp-for="Email" class="sp-label">
+                            Email Address <span class="sp-required">*</span>
+                        </label>
+                        <input asp-for="Email" class="sp-input" type="email"
+                               placeholder="e.g. sarah.johnson@school.edu" autocomplete="email" />
+                        <span asp-validation-for="Email" class="field-validation-error"></span>
+                    </div>
+
+                </div><!-- /.sp-form-grid -->
+
+                <hr class="sp-divider" />
+
+                <!-- ENROLLMENT INFORMATION -->
+                <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sp-muted);margin:0 0 1rem;">
+                    Enrollment Information
+                </p>
+
+                <div class="sp-form-grid">
+
+                    <!-- Enrollment Date -->
+                    <div class="sp-field">
+                        <label asp-for="EnrollmentDate" class="sp-label">
+                            Enrollment Date <span class="sp-required">*</span>
+                        </label>
+                        <input asp-for="EnrollmentDate" class="sp-input" type="date" />
+                        <span asp-validation-for="EnrollmentDate" class="field-validation-error"></span>
+                    </div>
+
+                    @* Add additional editable fields here, same pattern as Create *@
+
+                </div><!-- /.sp-form-grid -->
+
+                <hr class="sp-divider" />
+
+                <!-- FORM ACTIONS -->
+                <div class="sp-btn-group">
+                    <button type="submit" class="sp-btn sp-btn--primary">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1-4H9m4 0a1 1 0 011 1v4H9V3a1 1 0 011-1h4z"/>
+                        </svg>
+                        Save Changes
+                    </button>
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="sp-btn sp-btn--outline">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div><!-- /.sp-card__body -->
+    </div><!-- /.sp-card -->
+</div><!-- /.sp-page -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

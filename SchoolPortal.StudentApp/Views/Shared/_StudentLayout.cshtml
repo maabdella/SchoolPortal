@@ -1,0 +1,392 @@
+<!-- Shared CSS for SchoolPortal Student Views - Include in _Layout.cshtml or inline per view -->
+<style>
+    /* ========== SchoolPortal Design Tokens ========== */
+    :root {
+        --sp-navy:       #0f2044;
+        --sp-blue:       #1a3a6b;
+        --sp-accent:     #2f7ef5;
+        --sp-accent-lt:  #e8f0fe;
+        --sp-gold:       #f0b429;
+        --sp-danger:     #d63031;
+        --sp-danger-lt:  #fff5f5;
+        --sp-success:    #00b894;
+        --sp-text:       #1a1f36;
+        --sp-muted:      #6b7280;
+        --sp-border:     #dde3ed;
+        --sp-bg:         #f4f6fb;
+        --sp-white:      #ffffff;
+        --sp-radius:     10px;
+        --sp-shadow-sm:  0 1px 4px rgba(15,32,68,.08);
+        --sp-shadow:     0 4px 18px rgba(15,32,68,.12);
+        --sp-shadow-lg:  0 8px 32px rgba(15,32,68,.18);
+        --sp-font-body:  'DM Sans', system-ui, sans-serif;
+        --sp-font-head:  'Sora', 'DM Sans', sans-serif;
+    }
+
+    /* ========== Google Fonts ========== */
+
+    /* ========== Page Shell ========== */
+    body {
+        background: var(--sp-bg);
+        font-family: var(--sp-font-body);
+        color: var(--sp-text);
+        margin: 0;
+    }
+
+    .sp-page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* ========== Page Header ========== */
+    .sp-page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .sp-page-header__titles {
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+    }
+
+    .sp-breadcrumb {
+        font-size: .78rem;
+        font-weight: 500;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--sp-muted);
+    }
+    .sp-breadcrumb a { color: var(--sp-accent); text-decoration: none; }
+    .sp-breadcrumb a:hover { text-decoration: underline; }
+    .sp-breadcrumb span { margin: 0 .35rem; }
+
+    .sp-page-title {
+        font-family: var(--sp-font-head);
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: var(--sp-navy);
+        margin: 0;
+        line-height: 1.15;
+    }
+
+    /* ========== Card ========== */
+    .sp-card {
+        background: var(--sp-white);
+        border-radius: var(--sp-radius);
+        box-shadow: var(--sp-shadow-sm);
+        border: 1px solid var(--sp-border);
+        overflow: hidden;
+    }
+
+    .sp-card__header {
+        background: linear-gradient(135deg, var(--sp-navy) 0%, var(--sp-blue) 100%);
+        padding: 1.1rem 1.6rem;
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .sp-card__header-icon {
+        width: 36px; height: 36px;
+        background: rgba(255,255,255,.12);
+        border-radius: 8px;
+        display: grid; place-items: center;
+        color: var(--sp-white);
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+
+    .sp-card__header-text h2 {
+        font-family: var(--sp-font-head);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--sp-white);
+        margin: 0 0 .1rem;
+    }
+    .sp-card__header-text p {
+        font-size: .78rem;
+        color: rgba(255,255,255,.65);
+        margin: 0;
+    }
+
+    .sp-card__body { padding: 1.8rem; }
+
+    /* ========== Buttons ========== */
+    .sp-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        padding: .55rem 1.2rem;
+        font-family: var(--sp-font-body);
+        font-size: .88rem;
+        font-weight: 600;
+        border-radius: 7px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all .18s ease;
+        line-height: 1.4;
+        white-space: nowrap;
+    }
+    .sp-btn:focus-visible { outline: 2px solid var(--sp-accent); outline-offset: 2px; }
+
+    .sp-btn--primary { background: var(--sp-accent); color: #fff; }
+    .sp-btn--primary:hover { background: #1a6de0; box-shadow: 0 4px 12px rgba(47,126,245,.35); transform: translateY(-1px); color: #fff; }
+
+    .sp-btn--outline {
+        background: transparent;
+        color: var(--sp-blue);
+        border: 1.5px solid var(--sp-border);
+    }
+    .sp-btn--outline:hover { background: var(--sp-accent-lt); border-color: var(--sp-accent); color: var(--sp-accent); }
+
+    .sp-btn--danger { background: var(--sp-danger); color: #fff; }
+    .sp-btn--danger:hover { background: #b52828; box-shadow: 0 4px 12px rgba(214,48,49,.35); transform: translateY(-1px); color: #fff; }
+
+    .sp-btn--ghost { background: transparent; color: var(--sp-muted); border: 1.5px solid transparent; }
+    .sp-btn--ghost:hover { background: var(--sp-bg); color: var(--sp-text); }
+
+    .sp-btn--sm { padding: .35rem .8rem; font-size: .8rem; border-radius: 6px; }
+
+    .sp-btn-group { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+
+    /* ========== Table ========== */
+    .sp-table-wrapper { overflow-x: auto; }
+
+    .sp-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: .9rem;
+    }
+
+    .sp-table thead tr {
+        background: var(--sp-bg);
+        border-bottom: 2px solid var(--sp-border);
+    }
+
+    .sp-table th {
+        padding: .85rem 1rem;
+        text-align: left;
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .07em;
+        text-transform: uppercase;
+        color: var(--sp-muted);
+        white-space: nowrap;
+    }
+
+    .sp-table td {
+        padding: 1rem 1rem;
+        border-bottom: 1px solid var(--sp-border);
+        vertical-align: middle;
+    }
+
+    .sp-table tbody tr { transition: background .12s; }
+    .sp-table tbody tr:hover { background: #f8faff; }
+    .sp-table tbody tr:last-child td { border-bottom: none; }
+
+    .sp-table__empty {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--sp-muted);
+        font-size: .95rem;
+    }
+    .sp-table__empty svg { display: block; margin: 0 auto .8rem; opacity: .3; }
+
+    /* ========== Avatar ========== */
+    .sp-avatar {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--sp-accent) 0%, var(--sp-navy) 100%);
+        color: #fff;
+        font-size: .8rem;
+        font-weight: 700;
+        display: inline-grid;
+        place-items: center;
+        flex-shrink: 0;
+        text-transform: uppercase;
+    }
+
+    .sp-name-cell {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        font-weight: 600;
+    }
+    .sp-name-cell small { display: block; font-weight: 400; font-size: .8rem; color: var(--sp-muted); }
+
+    /* ========== Badge ========== */
+    .sp-badge {
+        display: inline-block;
+        padding: .25rem .65rem;
+        border-radius: 20px;
+        font-size: .73rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+    }
+    .sp-badge--info { background: var(--sp-accent-lt); color: var(--sp-accent); }
+    .sp-badge--success { background: #e0faf4; color: #00916e; }
+
+    /* ========== Form ========== */
+    .sp-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.4rem;
+    }
+    .sp-form-grid .sp-field--full { grid-column: 1 / -1; }
+
+    @@media(max-width: 640px) {
+        .sp-form-grid { grid-template-columns: 1fr; }
+        .sp-form-grid .sp-field--full { grid-column: 1; }
+    }
+
+    .sp-field { display: flex; flex-direction: column; gap: .4rem; }
+
+    .sp-label {
+        font-size: .82rem;
+        font-weight: 600;
+        color: var(--sp-blue);
+        letter-spacing: .02em;
+    }
+    .sp-label .sp-required { color: var(--sp-danger); margin-left: .15rem; }
+
+    .sp-input, .sp-select, .sp-textarea {
+        width: 100%;
+        padding: .65rem .9rem;
+        font-family: var(--sp-font-body);
+        font-size: .9rem;
+        color: var(--sp-text);
+        background: var(--sp-white);
+        border: 1.5px solid var(--sp-border);
+        border-radius: 7px;
+        transition: border-color .15s, box-shadow .15s;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+    }
+    .sp-input:focus, .sp-select:focus, .sp-textarea:focus {
+        outline: none;
+        border-color: var(--sp-accent);
+        box-shadow: 0 0 0 3px rgba(47,126,245,.12);
+    }
+    .sp-input.input-validation-error,
+    .sp-select.input-validation-error,
+    .sp-textarea.input-validation-error {
+        border-color: var(--sp-danger);
+        box-shadow: 0 0 0 3px rgba(214,48,49,.1);
+    }
+
+    .sp-hint { font-size: .78rem; color: var(--sp-muted); }
+
+    .field-validation-error {
+        font-size: .78rem;
+        color: var(--sp-danger);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: .3rem;
+    }
+    .field-validation-error::before { content: "⚠"; font-size: .7rem; }
+
+    .sp-validation-summary {
+        background: var(--sp-danger-lt);
+        border: 1.5px solid #fca5a5;
+        border-radius: 8px;
+        padding: 1rem 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    .sp-validation-summary h4 {
+        margin: 0 0 .5rem;
+        font-size: .88rem;
+        color: var(--sp-danger);
+        font-weight: 700;
+    }
+    .validation-summary-errors ul { margin: 0; padding-left: 1.2rem; }
+    .validation-summary-errors li { font-size: .83rem; color: #b91c1c; }
+
+    /* ========== Details Layout ========== */
+    .sp-detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    @@media(max-width: 600px) { .sp-detail-grid { grid-template-columns: 1fr; } }
+
+    .sp-detail-item { display: flex; flex-direction: column; gap: .3rem; }
+
+    .sp-detail-label {
+        font-size: .73rem;
+        font-weight: 700;
+        letter-spacing: .07em;
+        text-transform: uppercase;
+        color: var(--sp-muted);
+    }
+
+    .sp-detail-value {
+        font-size: 1rem;
+        color: var(--sp-text);
+        font-weight: 500;
+    }
+
+    .sp-divider { border: none; border-top: 1px solid var(--sp-border); margin: 1.5rem 0; }
+
+    /* ========== Confirm Delete Box ========== */
+    .sp-confirm-box {
+        background: var(--sp-danger-lt);
+        border: 1.5px solid #fca5a5;
+        border-radius: 8px;
+        padding: 1.2rem 1.4rem;
+        margin: 1.5rem 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .sp-confirm-box__icon {
+        font-size: 1.4rem;
+        flex-shrink: 0;
+        margin-top: .1rem;
+    }
+    .sp-confirm-box__text h4 { margin: 0 0 .3rem; font-size: .95rem; color: #b91c1c; }
+    .sp-confirm-box__text p { margin: 0; font-size: .85rem; color: #7f1d1d; }
+
+    /* ========== Student Profile Hero ========== */
+    .sp-student-hero {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--sp-border);
+    }
+    .sp-student-hero .sp-avatar { width: 56px; height: 56px; font-size: 1.2rem; }
+    .sp-student-hero__info h3 {
+        font-family: var(--sp-font-head);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0 0 .2rem;
+        color: var(--sp-navy);
+    }
+    .sp-student-hero__info p { margin: 0; font-size: .85rem; color: var(--sp-muted); }
+
+    /* ========== Stats Bar ========== */
+    .sp-stats { display: flex; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .sp-stat { display: flex; flex-direction: column; gap: .1rem; }
+    .sp-stat__val { font-family: var(--sp-font-head); font-size: 1.5rem; font-weight: 700; color: var(--sp-navy); }
+    .sp-stat__lbl { font-size: .73rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--sp-muted); }
+
+    /* ========== Actions Column ========== */
+    .sp-actions { display: flex; gap: .4rem; flex-wrap: nowrap; }
+
+    /* ========== Responsive ========== */
+    @@media(max-width: 768px) {
+        .sp-page { padding: 1.5rem 1rem 3rem; }
+        .sp-page-title { font-size: 1.4rem; }
+        .sp-card__body { padding: 1.2rem; }
+        .sp-table th, .sp-table td { padding: .7rem .75rem; }
+    }
+</style>

@@ -1,0 +1,151 @@
+@model SchoolPortal.StudentApp.Models.Student
+
+@{
+    ViewData["Title"] = "Add New Student";
+}
+
+<!-- ===== STYLES ===== -->
+<partial name="_StudentLayout" />
+
+<div class="sp-page" style="max-width:760px;">
+
+    <!-- PAGE HEADER -->
+    <div class="sp-page-header">
+        <div class="sp-page-header__titles">
+            <div class="sp-breadcrumb">
+                <a href="/">Home</a>
+                <span>›</span>
+                <a asp-action="Index">Students</a>
+                <span>›</span>
+                Add New Student
+            </div>
+            <h1 class="sp-page-title">Add New Student</h1>
+        </div>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="sp-card">
+        <div class="sp-card__header">
+            <div class="sp-card__header-icon">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+            </div>
+            <div class="sp-card__header-text">
+                <h2>Student Registration</h2>
+                <p>Fill in all required fields to register a new student</p>
+            </div>
+        </div>
+
+        <div class="sp-card__body">
+
+            <!-- VALIDATION SUMMARY -->
+            <div asp-validation-summary="ModelOnly" class="sp-validation-summary">
+                <h4>⚠ Please fix the following errors before continuing:</h4>
+            </div>
+
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+
+                <!-- PERSONAL INFORMATION -->
+                <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sp-muted);margin:0 0 1rem;">
+                    Personal Information
+                </p>
+
+                <div class="sp-form-grid">
+
+                    <!-- First Name -->
+                    <div class="sp-field">
+                        <label asp-for="FirstName" class="sp-label">
+                            First Name <span class="sp-required">*</span>
+                        </label>
+                        <input asp-for="FirstName" class="sp-input"
+                               placeholder="e.g. Sarah" autocomplete="given-name" />
+                        <span asp-validation-for="FirstName" class="field-validation-error"></span>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="sp-field">
+                        <label asp-for="LastName" class="sp-label">
+                            Last Name <span class="sp-required">*</span>
+                        </label>
+                        <input asp-for="LastName" class="sp-input"
+                               placeholder="e.g. Johnson" autocomplete="family-name" />
+                        <span asp-validation-for="LastName" class="field-validation-error"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="sp-field sp-field--full">
+                        <label asp-for="Email" class="sp-label">
+                            Email Address <span class="sp-required">*</span>
+                        </label>
+                        <input asp-for="Email" class="sp-input" type="email"
+                               placeholder="e.g. sarah.johnson@school.edu" autocomplete="email" />
+                        <span asp-validation-for="Email" class="field-validation-error"></span>
+                        <span class="sp-hint">This will be used for all school communications.</span>
+                    </div>
+
+                </div><!-- /.sp-form-grid -->
+
+                <hr class="sp-divider" />
+
+                <!-- ENROLLMENT INFORMATION -->
+                <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sp-muted);margin:0 0 1rem;">
+                    Enrollment Information
+                </p>
+
+                <div class="sp-form-grid">
+
+                    <!-- Enrollment Date -->
+                    <div class="sp-field">
+                        <label asp-for="EnrollmentDate" class="sp-label">
+                            Enrollment Date <span class="sp-required">*</span>
+                        </label>
+                        <input asp-for="EnrollmentDate" class="sp-input" type="date"
+                               value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="EnrollmentDate" class="field-validation-error"></span>
+                    </div>
+
+                    @* If your Student model has additional fields (e.g. PhoneNumber, Grade, Address)
+                       add them here following the same pattern:
+                    <div class="sp-field">
+                        <label asp-for="PhoneNumber" class="sp-label">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="sp-input" type="tel" placeholder="e.g. +20 1234 567890" />
+                        <span asp-validation-for="PhoneNumber" class="field-validation-error"></span>
+                    </div>
+                    *@
+
+                </div><!-- /.sp-form-grid -->
+
+                <hr class="sp-divider" />
+
+                <!-- FORM ACTIONS -->
+                <div class="sp-btn-group">
+                    <button type="submit" class="sp-btn sp-btn--primary">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Register Student
+                    </button>
+                    <a asp-action="Index" class="sp-btn sp-btn--outline">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div><!-- /.sp-card__body -->
+    </div><!-- /.sp-card -->
+</div><!-- /.sp-page -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
