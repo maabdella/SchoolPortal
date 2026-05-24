@@ -5,6 +5,8 @@ using SchoolPortal.StudentApp.Models;
 
 namespace SchoolPortal.StudentApp.Controllers;
 
+[Route("api/[controller]")]
+[ApiController]
 public class StudentController : Controller
 {
 	private readonly StudentDbContext _studentDbContext;

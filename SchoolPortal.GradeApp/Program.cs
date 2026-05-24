@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using SchoolPortal.GradeApp.Data.Audit;
+using SchoolPortal.GradeApp.Data.Context;
+
 namespace SchoolPortal.GradeApp;
 
 public class Program
@@ -9,7 +13,20 @@ public class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
+        builder.Services.AddDbContext<GradeAppDbContext>((sp, options) =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("GradeConnection"));
+            options.AddInterceptors(
+              sp.GetRequiredService<AuditInterceptor>());
+        });
+
+        builder.Services.AddScoped<AuditInterceptor>();
+
+        builder.Services.AddHttpClient
+
         var app = builder.Build();
+
+
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
@@ -23,7 +40,7 @@ public class Program
         app.MapStaticAssets();
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}")
+            pattern: "{controller=Grade}/{action=Index}/{id?}")
             .WithStaticAssets();
 
         app.Run();
