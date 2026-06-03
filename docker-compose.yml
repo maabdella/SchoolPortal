@@ -1,0 +1,50 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourStrong@Passw0rd"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - schoolportal
+
+  students-mvc:
+    build: ./SchoolPortal.StudentApp
+    container_name: students-mvc
+    restart: unless-stopped
+    ports:
+      - "5001:80"
+    environment:
+      ConnectionStrings__StudentConnection: "Server=sqlserver,1433;Database=StudentAppDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - sqlserver
+    networks:
+      - schoolportal
+
+  grades-mvc:
+    build: ./SchoolPortal.GradeApp
+    container_name: grades-mvc
+    restart: unless-stopped
+    ports:
+      - "5002:80"
+    environment:
+      ConnectionStrings__GradeConnection: "Server=sqlserver,1433;Database=GradeAppDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+      StudentsService__BaseUrl: "http://students-mvc/"
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - sqlserver
+      - students-mvc
+    networks:
+      - schoolportal
+
+networks:
+  schoolportal:
+    driver: bridge
+
+volumes:
+  sql_data:

@@ -1,0 +1,71 @@
+@model GradeDetailsViewModel
+
+@{
+    ViewData["Title"] = "Grade Details";
+}
+
+<partial name="_StudentLayout" />
+
+<div class="sp-page" style="max-width:780px;">
+    <div class="sp-page-header">
+        <div class="sp-page-header__titles">
+            <div class="sp-breadcrumb">
+                <a asp-action="Index">Grades</a>
+                <span>›</span>
+                Details
+            </div>
+            <h1 class="sp-page-title">Grade Details</h1>
+        </div>
+        <div class="sp-btn-group">
+            <a asp-action="Edit" asp-route-id="@Model.Grade.Id" class="sp-btn sp-btn--primary">Edit</a>
+            <a asp-action="Index" class="sp-btn sp-btn--outline">Back to List</a>
+        </div>
+    </div>
+
+    @if (ViewBag.StudentsServiceError != null)
+    {
+        <div class="sp-alert">@ViewBag.StudentsServiceError</div>
+    }
+
+    <div class="sp-card">
+        <div class="sp-card__body">
+            <div class="sp-detail-grid">
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Student</span>
+                    <span class="sp-detail-value">@Model.StudentName</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Student ID</span>
+                    <span class="sp-detail-value">#@Model.Grade.StudentId</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Course</span>
+                    <span class="sp-detail-value">@Model.Grade.CourseName</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Score</span>
+                    <span class="sp-detail-value">@Model.Grade.Score</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Grade Date</span>
+                    <span class="sp-detail-value">@Model.Grade.GradeDate.ToString("MMMM dd, yyyy")</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Grade ID</span>
+                    <span class="sp-detail-value">#@Model.Grade.Id</span>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Grade.Notes))
+                {
+                    <div class="sp-detail-item sp-field--full">
+                        <span class="sp-detail-label">Notes</span>
+                        <span class="sp-detail-value">@Model.Grade.Notes</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top:1rem;">
+        <a asp-action="Delete" asp-route-id="@Model.Grade.Id" class="sp-btn sp-btn--danger sp-btn--sm">Delete Grade</a>
+    </div>
+</div>

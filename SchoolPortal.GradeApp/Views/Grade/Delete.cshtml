@@ -1,0 +1,61 @@
+@model GradeDetailsViewModel
+
+@{
+    ViewData["Title"] = "Delete Grade";
+}
+
+<partial name="_StudentLayout" />
+
+<div class="sp-page" style="max-width:640px;">
+    <div class="sp-page-header">
+        <div class="sp-page-header__titles">
+            <div class="sp-breadcrumb">
+                <a asp-action="Index">Grades</a>
+                <span>›</span>
+                Delete Grade
+            </div>
+            <h1 class="sp-page-title">Delete Grade</h1>
+        </div>
+    </div>
+
+    @if (ViewBag.StudentsServiceError != null)
+    {
+        <div class="sp-alert">@ViewBag.StudentsServiceError</div>
+    }
+
+    <div class="sp-card">
+        <div class="sp-card__body">
+            <div class="sp-detail-grid" style="margin-bottom:1.5rem;">
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Student</span>
+                    <span class="sp-detail-value">@Model.StudentName</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Course</span>
+                    <span class="sp-detail-value">@Model.Grade.CourseName</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Score</span>
+                    <span class="sp-detail-value">@Model.Grade.Score</span>
+                </div>
+                <div class="sp-detail-item">
+                    <span class="sp-detail-label">Grade Date</span>
+                    <span class="sp-detail-value">@Model.Grade.GradeDate.ToString("MMMM dd, yyyy")</span>
+                </div>
+            </div>
+
+            <div class="sp-confirm-box">
+                <strong>Are you sure?</strong>
+                <p style="margin:.5rem 0 0;">This will remove the grade record for <strong>@Model.Grade.CourseName</strong>.</p>
+            </div>
+
+            <form asp-action="Delete" asp-route-id="@Model.Grade.Id" method="post">
+                @Html.AntiForgeryToken()
+                <div class="sp-btn-group">
+                    <button type="submit" class="sp-btn sp-btn--danger">Yes, Delete Grade</button>
+                    <a asp-action="Index" class="sp-btn sp-btn--outline">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

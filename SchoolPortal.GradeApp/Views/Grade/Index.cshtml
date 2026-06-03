@@ -1,0 +1,96 @@
+@model IEnumerable<GradeListItemViewModel>
+
+@{
+    ViewData["Title"] = "Grades";
+}
+
+<partial name="_StudentLayout" />
+
+<div class="sp-page">
+    <div class="sp-page-header">
+        <div class="sp-page-header__titles">
+            <div class="sp-breadcrumb">
+                <a href="/">Home</a>
+                <span>›</span>
+                Grades
+            </div>
+            <h1 class="sp-page-title">Grade Records</h1>
+        </div>
+        <div class="sp-btn-group">
+            <a asp-action="Create" class="sp-btn sp-btn--primary">Add New Grade</a>
+        </div>
+    </div>
+
+    @if (ViewBag.StudentsServiceError != null)
+    {
+        <div class="sp-alert">@ViewBag.StudentsServiceError</div>
+    }
+
+    <div class="sp-stats">
+        <div class="sp-stat">
+            <span class="sp-stat__val">@Model.Count()</span>
+            <span class="sp-stat__lbl">Total Grades</span>
+        </div>
+    </div>
+
+    <div class="sp-card">
+        <div class="sp-card__header">
+            <div class="sp-card__header-text">
+                <h2>All Grades</h2>
+                <p>Local grades combined with student names from the Students service</p>
+            </div>
+        </div>
+
+        <div class="sp-table-wrapper">
+            <table class="sp-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Score</th>
+                        <th>Date</th>
+                        <th style="text-align:right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <div class="sp-table__empty">
+                                    <p>No grades found. <a asp-action="Create">Add the first grade</a></p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        var idx = 1;
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@idx</td>
+                                <td>
+                                    <strong>@item.StudentName</strong>
+                                    <br /><small style="color:var(--sp-muted);">ID: @item.StudentId</small>
+                                </td>
+                                <td>@item.CourseName</td>
+                                <td>@item.Score</td>
+                                <td>@item.GradeDate.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <div class="sp-actions">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="sp-btn sp-btn--ghost sp-btn--sm">Details</a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="sp-btn sp-btn--outline sp-btn--sm">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="sp-btn sp-btn--danger sp-btn--sm">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            idx++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

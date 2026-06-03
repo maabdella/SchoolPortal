@@ -2,8 +2,6 @@
 using global::SchoolPortal.GradeApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using SchoolPortal.StudentApp.Models;
-
 public class AuditInterceptor : SaveChangesInterceptor
 {
     public override InterceptionResult<int> SavingChanges(

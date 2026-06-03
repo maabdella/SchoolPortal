@@ -26,6 +26,23 @@ public class Program
 
         var app = builder.Build();
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<StudentDbContext>();
+            for (var i = 0; i < 30; i++)
+            {
+                try
+                {
+                    db.Database.Migrate();
+                    break;
+                }
+                catch when (i < 29)
+                {
+                    Thread.Sleep(3000);
+                }
+            }
+        }
+
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
@@ -36,6 +53,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapStaticAssets();
+        app.MapControllers();
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Student}/{action=Index}/{id?}")

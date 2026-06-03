@@ -1,4 +1,7 @@
 <Solution>
   <Project Path="SchoolPortal.GradeApp/SchoolPortal.GradeApp.csproj" />
   <Project Path="SchoolPortal.StudentApp/SchoolPortal.StudentApp.csproj" />
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
 </Solution>

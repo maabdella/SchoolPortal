@@ -5,8 +5,6 @@ using SchoolPortal.StudentApp.Models;
 
 namespace SchoolPortal.StudentApp.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
 public class StudentController : Controller
 {
 	private readonly StudentDbContext _studentDbContext;
@@ -108,12 +106,14 @@ public class StudentController : Controller
     }
 
 
+    [HttpGet("api/Student/GetAll")]
     public ActionResult GetAll()
     {
         var students = _studentDbContext.Students.ToList();
         return Json(students);
     }
 
+    [HttpGet("api/Student/GetById")]
     public ActionResult GetById(int id)
     {
         var student = _studentDbContext.Students.FirstOrDefault(s => s.Id == id);

@@ -1,0 +1,78 @@
+@model Grade
+
+@{
+    ViewData["Title"] = "Edit Grade";
+}
+
+<partial name="_StudentLayout" />
+
+<div class="sp-page" style="max-width:760px;">
+    <div class="sp-page-header">
+        <div class="sp-page-header__titles">
+            <div class="sp-breadcrumb">
+                <a asp-action="Index">Grades</a>
+                <span>›</span>
+                Edit Grade #@Model.Id
+            </div>
+            <h1 class="sp-page-title">Edit Grade</h1>
+        </div>
+    </div>
+
+    @if (ViewBag.StudentsServiceError != null)
+    {
+        <div class="sp-alert">@ViewBag.StudentsServiceError</div>
+    }
+
+    <div class="sp-card">
+        <div class="sp-card__body">
+            <div asp-validation-summary="ModelOnly" class="sp-validation-summary"></div>
+
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" />
+
+                <div class="sp-form-grid">
+                    <div class="sp-field sp-field--full">
+                        <label asp-for="StudentId" class="sp-label">Student <span class="sp-required">*</span></label>
+                        <select asp-for="StudentId" class="sp-select" asp-items="ViewBag.StudentId"></select>
+                        <span asp-validation-for="StudentId" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="sp-field">
+                        <label asp-for="CourseName" class="sp-label">Course Name <span class="sp-required">*</span></label>
+                        <input asp-for="CourseName" class="sp-input" />
+                        <span asp-validation-for="CourseName" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="sp-field">
+                        <label asp-for="Score" class="sp-label">Score <span class="sp-required">*</span></label>
+                        <input asp-for="Score" class="sp-input" type="number" step="0.01" />
+                        <span asp-validation-for="Score" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="sp-field">
+                        <label asp-for="GradeDate" class="sp-label">Grade Date <span class="sp-required">*</span></label>
+                        <input asp-for="GradeDate" class="sp-input" type="date" />
+                        <span asp-validation-for="GradeDate" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="sp-field sp-field--full">
+                        <label asp-for="Notes" class="sp-label">Notes</label>
+                        <textarea asp-for="Notes" class="sp-textarea" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <hr class="sp-divider" />
+
+                <div class="sp-btn-group">
+                    <button type="submit" class="sp-btn sp-btn--primary">Save Changes</button>
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="sp-btn sp-btn--outline">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

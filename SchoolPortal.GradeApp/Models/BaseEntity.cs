@@ -1,4 +1,4 @@
-﻿namespace SchoolPortal.StudentApp.Models;
+﻿namespace SchoolPortal.GradeApp.Models;
 
 public class BaseEntity
 {
